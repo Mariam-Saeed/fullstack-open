@@ -10,6 +10,16 @@ const Display = ({ text, value }) => (
     {text === "positive" && "%"}
   </p>
 );
+
+const Statistics = ({ all, average, positive }) => {
+  return (
+    <>
+      <Display text="all" value={all} />
+      <Display text="average" value={average} />
+      <Display text="positive" value={positive} />
+    </>
+  );
+};
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0);
@@ -29,9 +39,7 @@ const App = () => {
       <Display text="good" value={good} />
       <Display text="neutral" value={neutral} />
       <Display text="bad" value={bad} />
-      <Display text="all" value={all} />
-      <Display text="average" value={average} />
-      <Display text="positive" value={positive} />
+      <Statistics all={all} average={average} positive={positive} />
     </>
   );
 };
