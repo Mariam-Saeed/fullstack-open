@@ -11,9 +11,13 @@ const Display = ({ text, value }) => (
   </p>
 );
 
-const Statistics = ({ all, average, positive }) => {
+const Statistics = ({ good, neutral, bad, all, average, positive }) => {
+  if (all === 0) return <p>No feedback given</p>;
   return (
     <>
+      <Display text="good" value={good} />
+      <Display text="neutral" value={neutral} />
+      <Display text="bad" value={bad} />
       <Display text="all" value={all} />
       <Display text="average" value={average} />
       <Display text="positive" value={positive} />
@@ -36,10 +40,14 @@ const App = () => {
       <Button text="neutral" onClick={() => setNeutral((prev) => prev + 1)} />
       <Button text="bad" onClick={() => setBad((prev) => prev + 1)} />
       <h1>statistics</h1>
-      <Display text="good" value={good} />
-      <Display text="neutral" value={neutral} />
-      <Display text="bad" value={bad} />
-      <Statistics all={all} average={average} positive={positive} />
+      <Statistics
+        good={good}
+        average={average}
+        bad={bad}
+        all={all}
+        average={average}
+        positive={positive}
+      />
     </>
   );
 };
