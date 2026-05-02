@@ -6,7 +6,11 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPersons(persons.concat({ name: newName }));
+    if (persons.find((person) => person.name === newName.trim())) {
+      alert(`${newName} is already added to phonebook`);
+      return;
+    }
+    setPersons(persons.concat({ name: newName.trim() }));
     setNewName("");
   };
 
