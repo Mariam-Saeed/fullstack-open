@@ -43,6 +43,17 @@ const App = () => {
     setSearch(e.target.value);
   };
 
+  const handleDelete = (id) => {
+    const person = persons.find((person) => person.id === id);
+    if (window.confirm(`Delete ${person.name} ?`)) {
+      personsService
+        .deletePerson(id)
+        .then((data) =>
+          setPersons(persons.filter((person) => person.id !== data.id)),
+        );
+    }
+  };
+
   const filteredPersons = persons.filter((person) =>
     person.name.toLowerCase().includes(search.toLowerCase()),
   );
@@ -60,7 +71,7 @@ const App = () => {
         newNumber={newNumber}
       />
       <h2>Numbers</h2>
-      <Persons persons={filteredPersons} />
+      <Persons persons={filteredPersons} handleDelete={handleDelete} />
     </div>
   );
 };
