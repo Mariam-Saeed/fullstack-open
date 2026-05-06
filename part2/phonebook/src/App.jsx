@@ -22,15 +22,18 @@ const App = () => {
       alert(`${newName} is already added to phonebook`);
       return;
     }
-    setPersons(
-      persons.concat({
-        name: newName.trim(),
-        number: newNumber,
-        id: String(persons.length + 1),
-      }),
-    );
-    setNewName("");
-    setNewNumber("");
+    const newNameObject = {
+      name: newName.trim(),
+      number: newNumber,
+      id: String(persons.length + 1),
+    };
+    axios
+      .post("http://localhost:3001/persons", newNameObject)
+      .then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+        setNewNumber("");
+      });
   };
 
   const handleNameChange = (e) => {
