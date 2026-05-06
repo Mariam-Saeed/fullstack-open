@@ -24,6 +24,11 @@
       "name": "mariam",
       "number": "43544",
       "id": "rHbmgGwE8qY"
+    },
+    {
+      "name": "mayorka",
+      "number": "3453465",
+      "id": "4ZWXmbDIGKY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
