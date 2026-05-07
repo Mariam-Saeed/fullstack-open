@@ -5,6 +5,7 @@ import PersonForm from "./components/PersonForm";
 import personsService from "./services/persons";
 import Notification from "./components/Notification";
 import "./index.css";
+import Error from "./components/Error";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [search, setSearch] = useState("");
   const [notification, setNotification] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((data) => setPersons(data));
@@ -44,6 +46,14 @@ const App = () => {
             );
             setNewName("");
             setNewNumber("");
+          })
+          .catch((error) => {
+            setError(
+              `Information of ${newName} is already removed from server`,
+            );
+            setTimeout(() => {
+              setError(null);
+            }, 5000);
           });
       }
       return;
@@ -94,6 +104,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Notification notificationText={notification} />
+      <Error error={error} />
       <Filter search={search} handleSearch={handleSearch} />
       <h2>add a new</h2>
       <PersonForm
