@@ -11,6 +11,10 @@ const App = () => {
     setSearchText(value);
   };
 
+  const handleShowClick = (countryName) => {
+    setSearchText(countryName);
+  };
+
   useEffect(() => {
     countiresService.getAll().then((result) => {
       setCountriesData(result);
@@ -46,7 +50,12 @@ const App = () => {
       {filteredCountries.length > 1 &&
         filteredCountries.length <= 10 &&
         filteredCountries.map((country) => (
-          <h3 key={crypto.randomUUID()}>{country.name.common}</h3>
+          <div key={country.cca3}>
+            <span>{country.name.common}</span>
+            <button onClick={() => handleShowClick(country.name.common)}>
+              show
+            </button>
+          </div>
         ))}
       {country && <CountryDetails country={country} />}
     </>
