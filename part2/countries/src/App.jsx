@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import countiresService from "./services/countries";
+import weatherService from "./services/weather";
 import CountryDetails from "./components/CountryDetails";
 
 const App = () => {
   const [searchText, setSearchText] = useState("");
   const [countriesData, setCountriesData] = useState([]);
+  const [weather, setWeather] = useState(null);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -29,6 +31,7 @@ const App = () => {
     filteredCountries.length > 10 && searchText
       ? "Too many matches, specify another filter"
       : "";
+
   const country =
     filteredCountries.length === 1
       ? {
@@ -37,8 +40,24 @@ const App = () => {
           area: filteredCountries[0].area,
           flagImg: filteredCountries[0].flags.png,
           languages: Object.values(filteredCountries[0].languages),
+          lat: filteredCountries[0].capitalInfo.latlng[0],
+          lng: filteredCountries[0].capitalInfo.latlng[1],
         }
       : null;
+
+  useEffect(() => {
+    if (!country?.lat || !country?.lng) {
+      return;
+    }
+
+    weatherService.getCaptialWeather(country.lat, country.lng).then((data) => {
+      setWeather({
+        temp: data.current.temperature_2m,
+        wind: data.current.wind_speed_10m,
+        code: data.current.weather_code,
+      });
+    });
+  }, [country?.lat, country?.lng]);
 
   return (
     <>
@@ -57,7 +76,7 @@ const App = () => {
             </button>
           </div>
         ))}
-      {country && <CountryDetails country={country} />}
+      {country && <CountryDetails country={country} weather={weather} />}
     </>
   );
 };
